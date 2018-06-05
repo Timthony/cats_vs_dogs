@@ -139,27 +139,26 @@ def test_one_image(i):
                 print('No checkpoint file found')
 
             prediction = sess.run(logit, feed_dict={x: test_image})
-            print("prediction:",prediction)
-            max_index = np.argmax(prediction)
-            # predict a label for its id (1 = dog, 0 = cat):
-            if max_index==0:
-                print('This is a cat with possibility %.6f' %prediction[:, 0])
-                now_label = 0
-            else:
-                print('This is a dog with possibility %.6f' %prediction[:, 1])
-                now_label = 1
-    return now_label
+            #print("prediction:", prediction)
+            #max_index = np.argmax(prediction)
+            dog_acc = prediction[:, 1]
+            # if max_index==0:
+            #     print('This is a cat with possibility %.6f' %prediction[:, 0])
+            # else:
+            #     print('This is a dog with possibility %.6f' %prediction[:, 1])
+    return dog_acc[0]
 
 def main():
     total_begin_time = time.time()
     #run_training()
     id_list = []
     label_list = []
-    for i in range(12500):
+    for i in range(0, 12500):
         print("当前正在测试第%d张图片"%i)
         #test_one_image(i)
         #print(test_one_image(i))
-        id_list.append(i)
+        j = i+1
+        id_list.append(j)
         label_list.append(test_one_image(i))
 
     dataframe = pd.DataFrame({'id':id_list, 'label':label_list})
